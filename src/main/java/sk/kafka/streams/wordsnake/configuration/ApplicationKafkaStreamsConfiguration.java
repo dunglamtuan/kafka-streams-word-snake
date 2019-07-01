@@ -1,5 +1,6 @@
 package sk.kafka.streams.wordsnake.configuration;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Component;
 @Data //getters, setters
 @Builder  // for test
 @NoArgsConstructor // Spring needs universal constructor to init properties
-public class KafkaStreamsConfiguration {
+public class ApplicationKafkaStreamsConfiguration {
 
   private String applicationId;
+  private List<String> wordsToEliminate;
+  private String schemaRegistryUrl = "http://schema-registry:8081";
   private String inputTopic = "input";
   private String outputRawTopic = "output_raw";
   private String outputProcessedTopic = "output_processed";
