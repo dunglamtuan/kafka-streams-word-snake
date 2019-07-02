@@ -35,4 +35,13 @@ public class KafkaWordSnakeInitializer {
     return new KafkaStreamsConfiguration(properties);
   }
 
+  @Bean
+  public ApplicationWordSnakeStreams startStreams() {
+    ApplicationWordSnakeStreams streams = new ApplicationWordSnakeStreams(applicationConfiguration,
+        kStreamsConfigs());
+
+    streams.setupTopology();
+    return streams;
+  }
+
 }
