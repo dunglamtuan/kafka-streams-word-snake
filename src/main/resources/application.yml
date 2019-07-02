@@ -1,0 +1,20 @@
+spring:
+  kafka:
+    bootstrap-servers: 192.168.99.100:29092
+    client-id: word-snake
+
+    properties:
+      schema.registry.url: "http://192.168.99.100:8081"
+
+    producer:
+      key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+
+application:
+  streams-config:
+    application-id: word-snake
+    words-to-eliminate: \,
+    input-topic: input
+    output-raw-topic: output_raw
+    output-processed-topic: output_processed
+    invalid-topic: invalid_topic

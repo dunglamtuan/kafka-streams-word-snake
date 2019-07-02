@@ -22,8 +22,8 @@ public class SentenceProcessor {
 
   private String processWordsElimination(String processingSentence) {
     String result = processingSentence;
-    for (String eliminate : applicationConfig.getWordsToEliminate()) {
-      result = result.replaceAll(eliminate, "");
+    for (char eliminate : applicationConfig.getWordsToEliminate().toCharArray()) {
+      result = result.replaceAll(String.valueOf(eliminate), "");
     }
 
     return result;

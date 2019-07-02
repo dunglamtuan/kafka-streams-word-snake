@@ -10,12 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties("application.streams-config")
 @Data //getters, setters
-@Builder  // for test
 @NoArgsConstructor // Spring needs universal constructor to init properties
 public class ApplicationKafkaStreamsConfiguration {
 
   private String applicationId;
-  private List<String> wordsToEliminate;
+  private String wordsToEliminate;
   private String schemaRegistryUrl = "http://schema-registry:8081";
   private String inputTopic = "input";
   private String outputRawTopic = "output_raw";
