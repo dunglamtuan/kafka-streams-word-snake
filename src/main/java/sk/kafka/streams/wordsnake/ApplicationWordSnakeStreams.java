@@ -8,6 +8,7 @@ import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KeyValueMapper;
 import org.springframework.kafka.config.KafkaStreamsConfiguration;
 import sk.kafka.streams.wordsnake.configuration.ApplicationKafkaStreamsConfiguration;
+import sk.kafka.streams.wordsnake.implementation.DownRightUpSnake;
 import sk.kafka.streams.wordsnake.transform.SentenceTransformer;
 
 @AllArgsConstructor
@@ -20,7 +21,7 @@ public class ApplicationWordSnakeStreams {
   private final StreamsBuilder streamsBuilder = new StreamsBuilder();
 
   void setupTopology() {
-    KeyValueMapper mapper = new SentenceTransformer();
+    KeyValueMapper mapper = new SentenceTransformer(new DownRightUpSnake());
 
     streamsBuilder.stream(applicationConfig.getInputTopic())
         .peek((k, v) -> log.info("{} - value: {}", applicationConfig.getInputTopic(), v))
