@@ -35,7 +35,7 @@ services:
   schema-registry:
     image: confluentinc/cp-schema-registry:5.2.1
     hostname: schema-registry
-    container_name: schema-registry
+    container_name: schema-registry1
     depends_on:
       - zookeeper
       - broker

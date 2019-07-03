@@ -1,8 +1,11 @@
 package sk.kafka.streams.wordsnake;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import org.apache.avro.generic.GenericData.Record;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.generic.GenericRecordBuilder;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -15,6 +18,7 @@ import sk.kafka.streams.wordsnake.model.Sentence;
 
 @AllArgsConstructor
 @Component
+@Slf4j
 public class KafkaInputDataInitialization {
 
   private final KafkaTemplate<GenericRecord, GenericRecord> kafkaTemplate;
@@ -24,9 +28,21 @@ public class KafkaInputDataInitialization {
   public void appReady(ApplicationReadyEvent event) {
     GenericRecord key = new GenericRecordBuilder(InputKey.avroSchema).set("sequence", 1)
         .set("description", "aaa").build();
-    GenericRecord value = new GenericRecordBuilder(Sentence.avroSchema).set("content", "asdasd dasda asda")
-        .build();
 
-    kafkaTemplate.send(appConfig.getInputTopic(), key, value);
+    loadFileToSentences(appConfig.getInputPathFile()).forEach(sentence -> {
+      GenericRecord value = new GenericRecordBuilder(Sentence.avroSchema)
+          .set("content", sentence)
+          .build();
+      kafkaTemplate.send(appConfig.getInputTopic(), key, value);
+    });
+  }
+
+  private List<String> loadFileToSentences(String fileName) {
+    try {
+      return Files.readAllLines(Paths.get(fileName));
+    } catch (IOException e) {
+      log.error("Cannot load lines from file {}", fileName, e);
+      throw new IllegalArgumentException(e);
+    }
   }
 }

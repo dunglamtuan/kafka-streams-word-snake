@@ -15,7 +15,8 @@ public class ApplicationKafkaStreamsConfiguration {
 
   private String applicationId;
   private String wordsToEliminate;
-  private String schemaRegistryUrl = "http://schema-registry:8081";
+  private String inputPathFile;
+  private String schemaRegistryUrl = "http://localhost:8081";
   private String inputTopic = "input";
   private String outputRawTopic = "output_raw";
   private String outputProcessedTopic = "output_processed";

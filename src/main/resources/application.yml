@@ -1,10 +1,10 @@
 spring:
   kafka:
-    bootstrap-servers: 192.168.99.100:29092
+    bootstrap-servers: localhost:9092
     client-id: word-snake
 
     properties:
-      schema.registry.url: "http://192.168.99.100:8081"
+      schema.registry.url: "http://localhost:8081"
 
     producer:
       key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
@@ -14,7 +14,8 @@ application:
   streams-config:
     application-id: word-snake
     words-to-eliminate: \,
-    input-topic: input
+    input-path-file: C:\Users\lamtuad\Documents\kafka-streams-word-snake\src\main\resources\input_sentences.txt
+    input-topic: raw_input_topic
     output-raw-topic: output_raw
     output-processed-topic: output_processed
     invalid-topic: invalid_topic
