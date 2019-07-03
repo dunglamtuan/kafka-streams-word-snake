@@ -11,8 +11,10 @@ import org.apache.avro.SchemaBuilder;
 @Data
 public class Sentence  {
 
-  public static final Schema avroSchema = SchemaBuilder.builder().record("Sentence").fields()
-      .name("content").type().optional().stringType()
+  public static final String CONTENT_FIELD = "content";
+
+  public static final Schema AVRO_SCHEMA = SchemaBuilder.builder().record("Sentence").fields()
+      .name(CONTENT_FIELD).type().optional().stringType()
       .endRecord();
 
   private String rawSentence;

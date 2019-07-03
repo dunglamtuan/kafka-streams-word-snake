@@ -26,12 +26,12 @@ public class KafkaInputDataInitialization {
 
   @EventListener
   public void appReady(ApplicationReadyEvent event) {
-    GenericRecord key = new GenericRecordBuilder(InputKey.avroSchema).set("sequence", 1)
+    GenericRecord key = new GenericRecordBuilder(InputKey.AVRO_SCHEMA).set("sequence", 1)
         .set("description", "aaa").build();
 
     loadFileToSentences(appConfig.getInputPathFile()).forEach(sentence -> {
-      GenericRecord value = new GenericRecordBuilder(Sentence.avroSchema)
-          .set("content", sentence)
+      GenericRecord value = new GenericRecordBuilder(Sentence.AVRO_SCHEMA)
+          .set(Sentence.CONTENT_FIELD, sentence)
           .build();
       kafkaTemplate.send(appConfig.getInputTopic(), key, value);
     });

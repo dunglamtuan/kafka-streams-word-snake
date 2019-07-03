@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.KafkaStreamsConfiguration;
 import sk.kafka.streams.wordsnake.configuration.ApplicationKafkaStreamsConfiguration;
+import sk.kafka.streams.wordsnake.transform.SentenceProcessor;
 
 @Configuration
 @EnableKafka
@@ -40,11 +41,16 @@ public class KafkaWordSnakeInitializer {
 
   @Bean
   public ApplicationWordSnakeStreams startStreams() {
-    ApplicationWordSnakeStreams streams = new ApplicationWordSnakeStreams(applicationConfiguration,
-        kStreamsConfigs());
+    ApplicationWordSnakeStreams streams = new ApplicationWordSnakeStreams(
+        applicationConfiguration, kStreamsConfigs(), initProcessor());
 
     streams.setupTopology();
     return streams;
+  }
+
+  @Bean
+  public SentenceProcessor initProcessor() {
+    return new SentenceProcessor(applicationConfiguration);
   }
 
 }

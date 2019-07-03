@@ -2,18 +2,20 @@ package sk.kafka.streams.wordsnake.transform;
 
 import lombok.AllArgsConstructor;
 import sk.kafka.streams.wordsnake.configuration.ApplicationKafkaStreamsConfiguration;
-import sk.kafka.streams.wordsnake.model.Sentence;
 
 @AllArgsConstructor
 public class SentenceProcessor {
 
-  private String rawSentence;
   private final ApplicationKafkaStreamsConfiguration applicationConfig;
 
-  public Sentence processSentence() {
-    String partialProcessed = processToUpperCase(this.rawSentence);
-    partialProcessed = processWordsElimination(partialProcessed);
-    return new Sentence(partialProcessed);
+  public String processSentence(String rawSentence) {
+    String partialProcessed = processStringTrim(rawSentence);
+    partialProcessed = processToUpperCase(partialProcessed);
+    return processWordsElimination(partialProcessed).trim();
+  }
+
+  private String processStringTrim(String processingSentence) {
+    return processingSentence.trim();
   }
 
   private String processToUpperCase(String processingSentence) {
@@ -23,9 +25,8 @@ public class SentenceProcessor {
   private String processWordsElimination(String processingSentence) {
     String result = processingSentence;
     for (char eliminate : applicationConfig.getWordsToEliminate().toCharArray()) {
-      result = result.replaceAll(String.valueOf(eliminate), "");
+      result = result.replace(String.valueOf(eliminate), "");
     }
-
     return result;
   }
 }
