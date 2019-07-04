@@ -13,19 +13,24 @@ import sk.kafka.streams.wordsnake.model.Sentence;
 public class SentenceTransformer implements
     KeyValueMapper<GenericRecord, GenericRecord, KeyValue<GenericRecord, GenericRecord>> {
 
-  private WordSnakeService snakeService;
+  private Class<? extends WordSnakeService> wordSnakeClass;
   private SentenceProcessor sentenceProcessor;
 
   @Override
   public KeyValue<GenericRecord, GenericRecord> apply(GenericRecord key, GenericRecord value) {
-    String sentenceContent = value.get(Sentence.CONTENT_FIELD).toString();
-    log.info("Value content -> {}", sentenceContent);
-
+    WordSnakeService snakeService;
+    try {
+      snakeService = wordSnakeClass.getDeclaredConstructor().newInstance();
+    } catch (Exception e) {
+      log.error("Cannot construct word snake service from class {}", wordSnakeClass, e);
+      return null;
+    }
+    String sentenceContent = value.get(Sentence.CONTENT_FIELD_NAME).toString();
     sentenceContent = sentenceProcessor.processSentence(sentenceContent);
 
     String wordSnake = snakeService.makeSnake(sentenceContent);
 
-    value.put(Sentence.CONTENT_FIELD, wordSnake);
+    value.put(Sentence.CONTENT_FIELD_NAME, wordSnake);
     return new KeyValue<>(key, value);
   }
 }

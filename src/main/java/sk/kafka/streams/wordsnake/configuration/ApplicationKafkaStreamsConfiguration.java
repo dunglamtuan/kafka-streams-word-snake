@@ -1,7 +1,5 @@
 package sk.kafka.streams.wordsnake.configuration;
 
-import java.util.List;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -18,8 +16,7 @@ public class ApplicationKafkaStreamsConfiguration {
   private String inputPathFile;
   private String schemaRegistryUrl = "http://localhost:8081";
   private String inputTopic = "input";
-  private String outputRawTopic = "output_raw";
   private String outputProcessedTopic = "output_processed";
-  private String invalidTopic = "invalid_topic";
+  private String outputFilePath = "C:\\Users\\lamtuad\\Documents\\kafka-streams-word-snake\\output.txt";
 
 }

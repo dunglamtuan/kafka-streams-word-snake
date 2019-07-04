@@ -1,22 +1,26 @@
 spring:
   kafka:
-    bootstrap-servers: 192.168.99.100:9092
+    bootstrap-servers: localhost:9092
     client-id: word-snake
 
     properties:
-      schema.registry.url: "http://192.168.99.100:8081"
+      schema.registry.url: "http://localhost:8081"
 
     producer:
       key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
 
+    consumer:
+      group-id: ${random.uuid}
+      key-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+
 application:
   streams-config:
     application-id: word-snake
     words-to-eliminate: \,:\.
-    input-path-file: C:\Users\dungl\Documents\kafka-streams-word-snake\input_sentences.txt
-    schema-registry-url: http://192.168.99.100:8081
+    input-path-file: C:\Users\lamtuad\Documents\kafka-streams-word-snake\input_sentences.txt
+    schema-registry-url: http://localhost:8081
     input-topic: raw_input_topic
-    output-raw-topic: output_raw
-    output-processed-topic: output_processed
-    invalid-topic: invalid_topic
+    output-processed-topic: output_snake_topic
+    output-file-path: C:\Users\lamtuad\Documents\kafka-streams-word-snake\output.txt

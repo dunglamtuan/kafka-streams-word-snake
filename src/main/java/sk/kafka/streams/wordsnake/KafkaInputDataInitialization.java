@@ -31,8 +31,10 @@ public class KafkaInputDataInitialization {
 
     loadFileToSentences(appConfig.getInputPathFile()).forEach(sentence -> {
       GenericRecord value = new GenericRecordBuilder(Sentence.AVRO_SCHEMA)
-          .set(Sentence.CONTENT_FIELD, sentence)
+          .set(Sentence.CONTENT_FIELD_NAME, sentence)
           .build();
+
+      log.info("RawData {} - Sending to Kafka {} {}", sentence, key, value);
       kafkaTemplate.send(appConfig.getInputTopic(), key, value);
     });
   }

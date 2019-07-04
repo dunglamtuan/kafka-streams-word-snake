@@ -22,7 +22,7 @@ class SentenceProcessorTest {
     String testSentence2 = "ASDasdasd, AasdaqIFJ, zxvcv: AOISdsfFO. ASOweqIF, IU, FLIASHF  ";
     String testSentence3 = "  ASDasdasd, AasdaqIFJ, zxvcv: AOISdsfFO. ASOweqIF, IU, FLIASHF   ";
 
-    String expectedResult = "ASDASDASD AASDAQIFJ ZXVCV AOISDSFFO ASOWEQIF IU FLIASHF";
+    String expectedResult = "ASDASDASD DASDAQIFJ JXVCV VOISDSFFO OSOWEQIF FU ULIASHF";
 
     // run
     String result = sentenceProcessor.processSentence(testSentence);
