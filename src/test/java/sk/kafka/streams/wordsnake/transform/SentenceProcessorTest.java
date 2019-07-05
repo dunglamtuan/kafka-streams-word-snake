@@ -14,7 +14,7 @@ class SentenceProcessorTest {
     // setup
     ApplicationKafkaStreamsConfiguration applicationConfig =
         mock(ApplicationKafkaStreamsConfiguration.class);
-    when(applicationConfig.getWordsToEliminate()).thenReturn(".:,");
+    when(applicationConfig.getCharactersToEliminate()).thenReturn(".:,");
 
     SentenceProcessor sentenceProcessor = new SentenceProcessor(applicationConfig);
     String testSentence = "ASDasdasd, AasdaqIFJ, zxvcv: AOISdsfFO. ASOweqIF, IU, FLIASHF";

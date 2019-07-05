@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class ApplicationKafkaStreamsConfiguration {
 
   private String applicationId;
-  private String wordsToEliminate;
+  private String charactersToEliminate;
   private String inputPathFile;
   private String schemaRegistryUrl = "http://localhost:8081";
   private String inputTopic = "input";

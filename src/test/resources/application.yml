@@ -18,7 +18,7 @@ spring:
 application:
   streams-config:
     application-id: word-snake
-    characters-to-eliminate: \,:\.
+    words-to-eliminate: \,:\.
     input-path-file: C:\Users\lamtuad\Documents\kafka-streams-word-snake\input_sentences.txt
     schema-registry-url: http://localhost:8081
     input-topic: raw_input_topic

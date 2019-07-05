@@ -24,7 +24,7 @@ public class DownRightUpSnake implements WordSnakeService {
 
     int maxPossibleWidth = IntStream.range(0, words.length)
         .filter(index -> index % 2 == 1)
-        .mapToObj(even -> words[even].length())
+        .mapToObj(odd -> words[odd].length())
         .reduce(1, Integer::sum);
 
     int maxPossibleHeight = IntStream.range(0, words.length)
