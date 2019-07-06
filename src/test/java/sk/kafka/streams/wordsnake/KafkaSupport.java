@@ -1,8 +1,8 @@
 package sk.kafka.streams.wordsnake;
 
-import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig;
-import io.confluent.kafka.streams.serdes.avro.GenericAvroDeserializer;
-import io.confluent.kafka.streams.serdes.avro.GenericAvroSerializer;
+import io.confluent.kafka.schemaregistry.client.MockSchemaRegistryClient;
+import io.confluent.kafka.serializers.KafkaAvroDeserializer;
+import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,23 +15,24 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 
 public class KafkaSupport {
 
-  static KafkaProducer<GenericRecord, GenericRecord> getProducer(String bootstrapServer, String schemaRegistry) {
+  static KafkaProducer<GenericRecord, GenericRecord> getProducer(String bootstrapServer, MockSchemaRegistryClient schemaRegistry) {
     Map<String, Object> configs = new HashMap<>();
     configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
-    configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, GenericAvroSerializer.class);
-    configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, GenericAvroSerializer.class);
-    configs.put(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, schemaRegistry);
+    KafkaAvroSerializer kafkaAvroSerializer = new KafkaAvroSerializer(schemaRegistry);
 
-    return new KafkaProducer<>(configs);
+    return new KafkaProducer(configs, kafkaAvroSerializer, kafkaAvroSerializer);
   }
 
-  static Consumer<GenericRecord, GenericRecord> getConsumer(String bootstrapServer, String topic) {
+  static Consumer<GenericRecord, GenericRecord> getConsumer(String bootstrapServer,  MockSchemaRegistryClient schemaRegistry, String topic) {
     Map<String, Object> configs = new HashMap<>();
     configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
-    configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, GenericAvroDeserializer.class);
-    configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, GenericAvroDeserializer.class);
+    configs.put(ConsumerConfig.GROUP_ID_CONFIG, "group-test");
+    configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class);
+    configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class);
 
-    Consumer<GenericRecord, GenericRecord> consumer = new KafkaConsumer<>(configs);
+    KafkaAvroDeserializer deserializer = new KafkaAvroDeserializer(schemaRegistry);
+
+    Consumer<GenericRecord, GenericRecord> consumer = new KafkaConsumer(configs, deserializer, deserializer);
 
     consumer.subscribe(Collections.singletonList(topic));
     return consumer;
