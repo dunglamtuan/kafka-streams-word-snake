@@ -25,7 +25,6 @@ class DownRightUpSnakeTest {
 
     //run
     String snake = snakeService.makeSnake(sentence);
-    System.out.println(snake);
 
     //verify
     assertThat(snake).isEqualTo(expected);

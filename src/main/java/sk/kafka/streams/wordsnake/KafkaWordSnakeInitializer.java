@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
@@ -41,8 +42,9 @@ public class KafkaWordSnakeInitializer {
 
   @Bean
   public ApplicationWordSnakeStreams startStreams() {
+    StreamsBuilder builder = new StreamsBuilder();
     ApplicationWordSnakeStreams streams = new ApplicationWordSnakeStreams(
-        applicationConfiguration, kStreamsConfigs(), initProcessor());
+        applicationConfiguration, kStreamsConfigs(), initProcessor(), builder);
 
     streams.setupTopology();
     return streams;

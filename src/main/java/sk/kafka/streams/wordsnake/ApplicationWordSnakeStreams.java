@@ -21,7 +21,7 @@ public class ApplicationWordSnakeStreams {
   private final ApplicationKafkaStreamsConfiguration applicationConfig;
   private final KafkaStreamsConfiguration kafkaStreamsConfiguration;
   private final SentenceProcessor sentenceProcessor;
-  private final StreamsBuilder streamsBuilder = new StreamsBuilder();
+  private final StreamsBuilder streamsBuilder;
 
   void setupTopology() {
 
