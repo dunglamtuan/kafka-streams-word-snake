@@ -1,26 +1,31 @@
 spring:
   kafka:
     bootstrap-servers: localhost:9092
-    client-id: word-snake
+    client-id: word-snake-test
 
     properties:
-      schema.registry.url: "http://localhost:8081"
+      schema.registry.url: http://localhost:8081
 
     producer:
       key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
 
     consumer:
-      group-id: ${random.uuid}
+      group-id: group_test_id
+      auto-offset-reset: earliest
       key-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
       value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        metadata-max-age-ms: 3000
+
 
 application:
   streams-config:
-    application-id: word-snake
-    words-to-eliminate: \,:\.
-    input-path-file: C:\Users\lamtuad\Documents\kafka-streams-word-snake\input_sentences.txt
+    application-id: app_id
+    characters-to-eliminate: \,:\.
     schema-registry-url: http://localhost:8081
-    input-topic: raw_input_topic
-    output-processed-topic: output_snake_topic
-    output-file-path: C:\Users\lamtuad\Documents\kafka-streams-word-snake\output.txt
+    input-file-path: ${test.input.file.path}
+    input-topic: ${test.input.topic}
+    output-processed-topic: ${test.output.topic}
+    output-file-path: ${test.output.file.path}
+    metadata-max-age-config: 3000

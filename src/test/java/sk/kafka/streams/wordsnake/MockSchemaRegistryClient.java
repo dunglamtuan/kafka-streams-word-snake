@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-package io.confluent.kafka.schemaregistry.client;
+package sk.kafka.streams.wordsnake;
 
+import io.confluent.kafka.schemaregistry.client.SchemaMetadata;
+import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.Schema;
 
 /**
  * Mock implementation of SchemaRegistryClient that can be used for tests. This version is NOT
  * thread safe. Schema data is stored in memory and is not persistent or shared across instances.
  */
+@Slf4j
 public class MockSchemaRegistryClient implements SchemaRegistryClient {
 
   private final Map<Integer, Schema> schemaIdCache;
@@ -50,7 +54,8 @@ public class MockSchemaRegistryClient implements SchemaRegistryClient {
     return subjectIdCache.entrySet().stream()
         .filter(k -> k.getValue().equalsIgnoreCase(subject))
         .findAny()
-        .get()
+        .orElseThrow(() ->
+            new IllegalArgumentException("Cannot get id from registry for subject " + subject))
         .getKey();
   }
 
@@ -128,17 +133,18 @@ public class MockSchemaRegistryClient implements SchemaRegistryClient {
 
   @Override
   public int getId(String subject, Schema schema) {
+    log.debug("Subject: {}", subject);
     return getIdFromRegistry(subject);
   }
 
   @Override
   public List<Integer> deleteSubject(String s) {
-    return null;
+    return Collections.emptyList();
   }
 
   @Override
   public List<Integer> deleteSubject(Map<String, String> map, String s) {
-    return null;
+    return Collections.emptyList();
   }
 
   @Override

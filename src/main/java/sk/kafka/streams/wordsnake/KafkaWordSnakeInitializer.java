@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -36,6 +37,7 @@ public class KafkaWordSnakeInitializer {
         applicationConfiguration.getSchemaRegistryUrl());
     properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, GenericAvroSerde.class.getName());
     properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, GenericAvroSerde.class.getName());
+    properties.put(StreamsConfig.consumerPrefix(ConsumerConfig.METADATA_MAX_AGE_CONFIG), applicationConfiguration.getMetadataMaxAgeConfig());
 
     return new KafkaStreamsConfiguration(properties);
   }

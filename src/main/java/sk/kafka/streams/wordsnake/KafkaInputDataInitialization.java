@@ -3,6 +3,7 @@ package sk.kafka.streams.wordsnake;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class KafkaInputDataInitialization {
     GenericRecord key = new GenericRecordBuilder(InputKey.AVRO_SCHEMA).set("sequence", 1)
         .set("description", "aaa").build();
 
-    loadFileToSentences(appConfig.getInputPathFile()).forEach(sentence -> {
+    loadFileToSentences(appConfig.getInputFilePath()).forEach(sentence -> {
       GenericRecord value = new GenericRecordBuilder(Sentence.AVRO_SCHEMA)
           .set(Sentence.CONTENT_FIELD_NAME, sentence)
           .build();
@@ -44,7 +45,7 @@ public class KafkaInputDataInitialization {
       return Files.readAllLines(Paths.get(fileName));
     } catch (IOException e) {
       log.error("Cannot load lines from file {}", fileName, e);
-      throw new IllegalArgumentException(e);
+      return Collections.emptyList();
     }
   }
 }

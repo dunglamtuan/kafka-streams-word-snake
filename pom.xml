@@ -104,6 +104,20 @@
       <artifactId>kafka-streams-test-utils</artifactId>
       <scope>test</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.landoop/kafka-testing -->
+    <dependency>
+      <groupId>com.landoop</groupId>
+      <artifactId>kafka-testing_2.11</artifactId>
+      <version>2.1</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-http -->
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-http</artifactId>
+      <version>9.4.12.v20180830</version>
+      <scope>test</scope>
+    </dependency>
 
     <!-- jUnit 5 implementation -->
     <dependency>

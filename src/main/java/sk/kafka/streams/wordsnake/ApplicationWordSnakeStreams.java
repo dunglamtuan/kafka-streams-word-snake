@@ -35,6 +35,7 @@ public class ApplicationWordSnakeStreams {
   }
 
   private void transformByDownRightUpSnake(KStream<GenericRecord, GenericRecord> inputRawStreams) {
+    log.info("Mapping KStream to topic {}", applicationConfig.getOutputProcessedTopic());
     inputRawStreams.map(new SentenceTransformer(DownRightUpSnake.class, sentenceProcessor))
         .to(applicationConfig.getOutputProcessedTopic());
   }

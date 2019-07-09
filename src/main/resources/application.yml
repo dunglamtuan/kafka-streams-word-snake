@@ -12,6 +12,7 @@ spring:
 
     consumer:
       group-id: ${random.uuid}
+      auto-offset-reset: latest
       key-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
       value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
 
@@ -19,7 +20,7 @@ application:
   streams-config:
     application-id: word-snake
     characters-to-eliminate: \,:\.
-    input-path-file: C:\Users\lamtuad\Documents\kafka-streams-word-snake\input_sentences.txt
+    input-file-path: C:\Users\lamtuad\Documents\kafka-streams-word-snake\input_sentences.txt
     schema-registry-url: http://localhost:8081
     input-topic: raw_input_topic
     output-processed-topic: output_snake_topic

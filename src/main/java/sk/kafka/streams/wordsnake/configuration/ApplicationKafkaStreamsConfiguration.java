@@ -11,12 +11,13 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor // Spring needs universal constructor to init properties
 public class ApplicationKafkaStreamsConfiguration {
 
-  private String applicationId;
+  private String applicationId = "test-snake-app";
   private String charactersToEliminate;
-  private String inputPathFile;
+  private String inputFilePath = "";
   private String schemaRegistryUrl = "http://localhost:8081";
   private String inputTopic = "input";
   private String outputProcessedTopic = "output_processed";
-  private String outputFilePath = "C:\\Users\\lamtuad\\Documents\\kafka-streams-word-snake\\output.txt";
+  private String outputFilePath = "";
+  private Long metadataMaxAgeConfig = 60000L;
 
 }
