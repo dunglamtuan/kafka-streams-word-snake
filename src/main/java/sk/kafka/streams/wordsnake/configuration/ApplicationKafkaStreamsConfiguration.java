@@ -16,8 +16,8 @@ public class ApplicationKafkaStreamsConfiguration {
   private String inputFilePath = "";
   private String schemaRegistryUrl = "http://localhost:8081";
   private String inputTopic = "input";
-  private String outputProcessedTopic = "output_processed";
-  private String outputFilePath = "";
-  private Long metadataMaxAgeConfig = 60000L;
+  private String prefixOutputProcessedTopic = "output_processed";
+  private String prefixOutputFilePath = "";
+  private Long metadataMaxAgeConfig = 30000L;
 
 }

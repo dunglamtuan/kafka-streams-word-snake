@@ -6,6 +6,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DownRightSnake extends SnakeMovement implements WordSnakeService {
 
+  public static final String TOPIC_SUFFIX = "_down_right_snake";
+
   @Override
   public String makeSnake(String sentence) {
     String[] words = sentence.split(" ");

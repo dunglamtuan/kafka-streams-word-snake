@@ -19,6 +19,7 @@ public class SentenceTransformer implements
   @Override
   public KeyValue<GenericRecord, GenericRecord> apply(GenericRecord key, GenericRecord value) {
     WordSnakeService snakeService;
+    log.info("KeyValueMapper.apply with clsss {}", wordSnakeClass.getName());
     try {
       snakeService = wordSnakeClass.getDeclaredConstructor().newInstance();
     } catch (Exception e) {

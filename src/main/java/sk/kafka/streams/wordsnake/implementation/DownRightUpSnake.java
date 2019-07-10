@@ -19,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor
 public class DownRightUpSnake extends SnakeMovement implements WordSnakeService {
 
+  public static final String TOPIC_SUFFIX = "_down_right_up_snake";
+
   @Override
   public String makeSnake(String sentence) {
     String[] words = sentence.split(" ");

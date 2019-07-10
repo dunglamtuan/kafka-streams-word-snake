@@ -2,8 +2,10 @@ package sk.kafka.streams.wordsnake.transform;
 
 import java.util.stream.IntStream;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import sk.kafka.streams.wordsnake.configuration.ApplicationKafkaStreamsConfiguration;
 
+@Slf4j
 @AllArgsConstructor
 public class SentenceProcessor {
 
@@ -33,6 +35,7 @@ public class SentenceProcessor {
   }
 
   private String makeSentenceValidForSnake(String processingSentence) {
+    log.info("makeSentenceValidForSnake({})", processingSentence);
     String[] words = processingSentence.split(" ");
 
     String[] results = new String[words.length];

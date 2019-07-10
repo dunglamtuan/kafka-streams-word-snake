@@ -20,8 +20,9 @@ application:
   streams-config:
     application-id: word-snake
     characters-to-eliminate: \,:\.
-    input-file-path: C:\Users\lamtuad\Documents\kafka-streams-word-snake\input_sentences.txt
+    input-file-path: input_sentences.txt
     schema-registry-url: http://localhost:8081
     input-topic: raw_input_topic
-    output-processed-topic: output_snake_topic
-    output-file-path: C:\Users\lamtuad\Documents\kafka-streams-word-snake\output.txt
+    prefix-output-processed-topic: output_snake_topic
+    prefix-output-file-path: output
+    metadata-max-age-config: 3000

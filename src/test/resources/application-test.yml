@@ -26,6 +26,6 @@ application:
     schema-registry-url: http://localhost:8081
     input-file-path: ${test.input.file.path}
     input-topic: ${test.input.topic}
-    output-processed-topic: ${test.output.topic}
-    output-file-path: ${test.output.file.path}
+    prefix-output-processed-topic: ${test.output.topic}
+    prefix-output-file-path: ${test.output.file.path}
     metadata-max-age-config: 3000
