@@ -2,10 +2,9 @@ package sk.kafka.streams.wordsnake.implementation;
 
 import static sk.kafka.streams.wordsnake.implementation.WordSnakeUtils.*;
 
-public class DownRightSnake implements WordSnakeService {
+import java.util.concurrent.atomic.AtomicInteger;
 
-  private int actualHeight = Integer.MIN_VALUE;
-  private int actualWidth = Integer.MIN_VALUE;
+public class DownRightSnake extends SnakeMovement implements WordSnakeService {
 
   @Override
   public String makeSnake(String sentence) {
@@ -21,37 +20,26 @@ public class DownRightSnake implements WordSnakeService {
 
   private char[][] downRightSnake(String[] words, int height, int width) {
 
-    System.out.println("HEIGHT: " + height + " WIDTH: " + width);
-
     char[][] canvas = makeCanvasWithSpaces(height, width);
 
     int currentDirection = DOWN;
-    int currentHorizontalPosition = 0;
-    int currentVerticalPosition = 0;
+    AtomicInteger currentHorizontalPosition = new AtomicInteger(0);
+    AtomicInteger currentVerticalPosition = new AtomicInteger(0);
 
     for (String word : words) {
       switch (currentDirection) {
         case RIGHT:
-          for (char c : word.toCharArray()) {
-            canvas[currentVerticalPosition][currentHorizontalPosition++] = c;
-          }
+          moveRight(canvas, word, currentHorizontalPosition, currentVerticalPosition);
           currentDirection = DOWN;
-          actualWidth = updateActualWidth(actualWidth, currentHorizontalPosition);
-          currentHorizontalPosition--;
           break;
         case DOWN:
-          for (char c : word.toCharArray()) {
-            canvas[currentVerticalPosition++][currentHorizontalPosition] = c;
-          }
+          moveDown(canvas, word, currentHorizontalPosition, currentVerticalPosition);
           currentDirection = RIGHT;
-          currentVerticalPosition--;
-          actualHeight = updateActualHeight(actualHeight, currentVerticalPosition);
           break;
         default:
           throw new IllegalStateException("DownRight snake cannot have direction of " + currentDirection);
       }
     }
-
     return canvas;
   }
 }

@@ -6,6 +6,7 @@ import static sk.kafka.streams.wordsnake.implementation.WordSnakeUtils.UP;
 import static sk.kafka.streams.wordsnake.implementation.WordSnakeUtils.asString;
 import static sk.kafka.streams.wordsnake.implementation.WordSnakeUtils.makeCanvasWithSpaces;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,10 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @NoArgsConstructor
-public class DownRightUpSnake implements WordSnakeService {
-
-  private int actualHeight = Integer.MIN_VALUE;
-  private int actualWidth = Integer.MIN_VALUE;
+public class DownRightUpSnake extends SnakeMovement implements WordSnakeService {
 
   @Override
   public String makeSnake(String sentence) {
@@ -41,34 +39,23 @@ public class DownRightUpSnake implements WordSnakeService {
 
     int currentDirection;
     int previousDirection = RIGHT;
-    int currentHorizontalPosition = 0;
-    int currentVerticalPosition = 0;
+    AtomicInteger currentHorizontalPosition = new AtomicInteger(0);
+    AtomicInteger currentVerticalPosition = new AtomicInteger(0);
     for (String word : words) {
-      currentDirection = nextMove(previousDirection, currentVerticalPosition, height);
+      currentDirection = nextMove(previousDirection, currentVerticalPosition.get(), height);
 
       switch (currentDirection) {
         case UP:
-          for (char c : word.toCharArray()) {
-            canvas[currentVerticalPosition--][currentHorizontalPosition] = c;
-          }
+          moveUp(canvas, word, currentHorizontalPosition, currentVerticalPosition);
           previousDirection = UP;
-          currentVerticalPosition++;
           break;
         case DOWN:
-          for (char c : word.toCharArray()) {
-            canvas[currentVerticalPosition++][currentHorizontalPosition] = c;
-          }
+          moveDown(canvas, word, currentHorizontalPosition, currentVerticalPosition);
           previousDirection = DOWN;
-          currentVerticalPosition--;
-          actualHeight = updateActualHeight(actualHeight, currentVerticalPosition);
           break;
         case RIGHT:
-          for (char c : word.toCharArray()) {
-            canvas[currentVerticalPosition][currentHorizontalPosition++] = c;
-          }
+          moveRight(canvas, word, currentHorizontalPosition, currentVerticalPosition);
           previousDirection = RIGHT;
-          actualWidth = updateActualWidth(actualWidth, currentHorizontalPosition);
-          currentHorizontalPosition--;
           break;
         default:
           throw new IllegalStateException("Current direction can not be " + currentDirection);
@@ -76,16 +63,6 @@ public class DownRightUpSnake implements WordSnakeService {
     }
 
     return canvas;
-  }
-
-  private int updateActualWidth(int currentActualWidth, int currentHorizontalPosition) {
-    return currentActualWidth < currentHorizontalPosition ?
-        currentHorizontalPosition : currentActualWidth;
-  }
-
-  private static int updateActualHeight(int currentActualHeight, int currentVerticalPosition) {
-    return currentActualHeight < currentVerticalPosition ?
-        currentVerticalPosition : currentActualHeight;
   }
 
   private int nextMove(int previousDirection, int currentPosition, int maxHeight) {
