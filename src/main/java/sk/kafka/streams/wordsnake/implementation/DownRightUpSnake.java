@@ -1,8 +1,11 @@
 package sk.kafka.streams.wordsnake.implementation;
 
-import static sk.kafka.streams.wordsnake.implementation.WordSnakeUtils.*;
+import static sk.kafka.streams.wordsnake.implementation.WordSnakeUtils.DOWN;
+import static sk.kafka.streams.wordsnake.implementation.WordSnakeUtils.RIGHT;
+import static sk.kafka.streams.wordsnake.implementation.WordSnakeUtils.UP;
+import static sk.kafka.streams.wordsnake.implementation.WordSnakeUtils.asString;
+import static sk.kafka.streams.wordsnake.implementation.WordSnakeUtils.makeCanvasWithSpaces;
 
-import java.util.stream.IntStream;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,17 +25,10 @@ public class DownRightUpSnake implements WordSnakeService {
   public String makeSnake(String sentence) {
     String[] words = sentence.split(" ");
 
-    int maxPossibleWidth = IntStream.range(0, words.length)
-        .filter(index -> index % 2 == 1)
-        .mapToObj(odd -> words[odd].length())
-        .reduce(1, Integer::sum);
+    int maxPossibleWidth = WordSnakeUtils.findMaxPossibleWidth(words);
+    int maxPossibleHeight = WordSnakeUtils.findMaxPossibleHeight(words);
 
-    int maxPossibleHeight = IntStream.range(0, words.length)
-        .filter(index -> index % 2 == 0)
-        .mapToObj(even -> words[even].length())
-        .reduce(1, Integer::sum);
-
-    log.info("MAX_HEIGHT: {} MAX_WIDTH: {}", maxPossibleHeight, maxPossibleWidth);
+    log.debug("MAX_HEIGHT: {} MAX_WIDTH: {} for {}", maxPossibleHeight, maxPossibleWidth, words);
 
     // algorithm used
     char[][] canvas = downRightUpSnake(words, maxPossibleHeight, maxPossibleWidth);
