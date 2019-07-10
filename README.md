@@ -12,3 +12,6 @@ The goal is make a snake from words in each sentence, for that, the modification
 Kafka cluster is created by docker-compose.yml.
 
 `Make sure to have running docker containers before start the application`
+
+## Development
+Integration tests depend on external kafka cluster (from docker). Make sure to start containers before running integration tests
