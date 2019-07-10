@@ -35,7 +35,7 @@ public class SentenceProcessor {
   }
 
   private String makeSentenceValidForSnake(String processingSentence) {
-    log.info("makeSentenceValidForSnake({})", processingSentence);
+    log.debug("makeSentenceValidForSnake({})", processingSentence);
     String[] words = processingSentence.split(" ");
 
     String[] results = new String[words.length];

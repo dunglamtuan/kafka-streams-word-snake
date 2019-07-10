@@ -33,7 +33,6 @@ class WordSnakeUtils {
   }
 
   static String asString(char[][] canvas, int height, int width) {
-    log.info("AsString height: {} width: {}", height, width);
 
     StringBuilder result = new StringBuilder();
     IntStream.range(0, height + 1)
