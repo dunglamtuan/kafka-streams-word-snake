@@ -1,0 +1,31 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    client-id: word-snake-test
+
+    properties:
+      schema.registry.url: http://localhost:8081
+
+    producer:
+      key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+
+    consumer:
+      group-id: group_test_id
+      auto-offset-reset: earliest
+      key-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        metadata-max-age-ms: 3000
+
+
+application:
+  streams-config:
+    application-id: app_id
+    characters-to-eliminate: \,:\.
+    schema-registry-url: http://localhost:8081
+    input-file-path: ${test.input.file.path}
+    input-topic: ${test.input.topic}
+    prefix-output-processed-topic: ${test.output.topic}
+    prefix-output-file-path: ${test.output.file.path}
+    metadata-max-age-config: 3000
