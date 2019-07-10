@@ -64,6 +64,7 @@ class KafkaStreamsIntegrationTest {
 
   @Test
   void inputDataTest() throws IOException, InterruptedException {
+    //setup
     String expectedSnake =
           "H    \n"
         + "E    \n"
@@ -71,6 +72,9 @@ class KafkaStreamsIntegrationTest {
         + "L    \n"
         + "OORLD\n";
 
+    // run
+    // by setting metadata.max.age.ms in properties for consumer, we reduce the time, that consumer
+    // retries to get topics metadata (default is 5min)
     int counter = 0;
     Path outputPath = Paths.get(appConfig.getOutputFilePath());
     while (!Files.exists(outputPath) && counter < 10) {
@@ -82,14 +86,13 @@ class KafkaStreamsIntegrationTest {
     if (counter == 10)
       throw new IllegalStateException("After 20s waiting for outputPath, but none file has been created");
 
+    // verify
     String fileName = appConfig.getOutputFilePath();
     List<String> outputLines = Files.readAllLines(Paths.get(fileName));
 
-    StringBuilder result = new StringBuilder();
-    outputLines.forEach(line -> result.append(line).append("\n"));
-    outputLines.remove(outputLines.size() - 1);
+    String result = String.join("\n", outputLines);
 
-    assertThat(result.toString()).isEqualTo(expectedSnake);
+    assertThat(result).isEqualTo(expectedSnake);
   }
 
   private static void deleteFile(String fileName) {
